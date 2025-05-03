@@ -1,5 +1,10 @@
+use std::hash::Hash;
+use std::fmt;
+use serde::{Serialize, Deserialize};
+
 // Excessive enumeration, but origins are well defined
-enum Origin {
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub enum Origin {
     Brazil,
     Colombia,
     ElSalvador,
@@ -19,15 +24,22 @@ impl Origin {
     }
 }
 
-struct CoffeBean {
+impl fmt::Display for Origin {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.as_str())
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub struct CoffeeBean {
     name: String,
     origin: Origin,
     roastery: String,
 }
 
-impl CoffeBean {
-    fn new(name: String, origin: Origin, roastery: String) -> Self {
-        CoffeBean { name, origin, roastery }
+
+impl CoffeeBean {
+    pub fn new(name: String, origin: Origin, roastery: String) -> Self {
+        CoffeeBean { name, origin, roastery }
     }
 }
-
